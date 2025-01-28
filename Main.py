@@ -2,13 +2,20 @@ from tkinter import *
 from random import randrange
 from random import *
 
+
 # interface graphique tkinter avant commencement du jeu
 
 fen = Tk()
 fen.title('Jeu du serpent')
-can = Canvas(fen,width = 150, height = 150 , bg = 'white')
+can = Canvas(fen,width = 500, height = 500 , bg = '#4fbd25')
 can.grid(row=1,column=0,columnspan=3)
-can.create_text(75,75,text="Jeu du serpent")
+fen.iconbitmap("snake.png")
+image = PhotoImage(file="snake.png")
+can.create_image(250, 250, image=image,)
+can.create_text(250,250,text="Jeu du serpent", font=("Courrier", 30))
+can.create_text(250,290,text="Appuyer sur Commencer pour jouer", font=("Courrier", 15))
+can.create_text(250,400,text="Jeu créer par TadomiKa-Ari", font=("Courrier", 15))
+
 
 # interface graphique du jeu
 
@@ -35,7 +42,7 @@ def pomme ():
     can.create_oval(x,y,x+5,y+5,fill='red')
 
 def scores ():
-    set(score=10)
+    set(score=0)
     if pomme == True:
         score = score + 1
         print(score)
@@ -57,6 +64,3 @@ btn_quit.grid(row=2 , column=1)
 # affichage de la fenetre   
 
 fen.mainloop()
-
-
-
