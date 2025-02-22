@@ -1,5 +1,12 @@
 from tkinter import *
 from random import randrange
+import pygame
+
+# initialisation de la musique
+def play_music():
+    pygame.mixer.init()
+    pygame.mixer.music.load("ultimate-snack.mp3")
+    pygame.mixer.music.play(loops=-1)
 
 # interface graphique tkinter avant commencement du jeu
 
@@ -51,6 +58,7 @@ def start_game():
     print("Le jeu commence !")
     Boutton.destroy()
     ouvrir_jeu()
+    play_music()
 
 def pomme(can):
     x = randrange(150, 350, 10)
