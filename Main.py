@@ -3,12 +3,38 @@ from random import randrange
 from random import random
 import pygame
 
+# volume 
+volume_actuel = 0.5
 
-# initialisation de la musique
+# Section musique
 def play_music():
     pygame.mixer.init()
     pygame.mixer.music.load("ultimate-snack.mp3")
     pygame.mixer.music.play(loops=-1)
+    volume()
+
+def volume():
+    pygame.mixer.music.set_volume(volume_actuel)
+
+def augmenter_volume():
+    global volume_actuel
+    if volume_actuel < 1:
+        volume_actuel = volume_actuel + 0.1
+    pygame.mixer.music.set_volume(volume_actuel + 0.1)
+    print(volume_actuel)
+
+def baisser_volume():
+    global volume_actuel
+    if volume_actuel > 0:
+        volume_actuel = volume_actuel - 0.1
+    pygame.mixer.music.set_volume(volume_actuel - 0.1)
+    print(volume_actuel)
+
+def play_pause():
+    if pygame.mixer.music.get_busy():
+        pygame.mixer.music.pause()
+    else:
+        pygame.mixer.music.unpause()
 
 
 
@@ -17,15 +43,15 @@ def play_music():
 def parametre():
     reglage = Tk()
     reglage.title('Paramètre son')
-    can = Canvas(reglage, width=100, height=100)
+    can = Canvas(reglage, width=0, height=0)
     can.grid(row=1, column=0, columnspan=3)
     reglage.iconbitmap("snake.ico")
     can.create_text(250, 250, text="Paramètre son", font=("Courrier", 30))
-    augmenter_son = Button(reglage, text="Augmenter le son")
+    augmenter_son = Button(reglage, text="Augmenter le son", command= augmenter_volume)
     augmenter_son.grid(row=2, column=0)
-    baisser_son = Button(reglage, text="Baisser le son")
+    baisser_son = Button(reglage, text="Baisser le son", command=baisser_volume)
     baisser_son.grid(row=2, column=1)
-    couper_son = Button(reglage, text="Couper le son")
+    couper_son = Button(reglage, text="Lancer/Couper le son", command=play_pause)
     couper_son.grid(row=2, column=2)
     btn_reglage = Button(reglage, text='quitter', command=reglage.destroy)
     btn_reglage.grid(row=3, column=1)
@@ -45,6 +71,7 @@ can.create_text(250, 290, text="Appuyer sur Commencer pour jouer", font=("Courri
 can.create_text(250, 400, text="Jeu créer par TadomiKa-Ari", font=("Courrier", 15))
 fen_reglage = Button(fen, text="Reglage", command=parametre)
 fen_reglage.grid(row=2, column=0)
+play_music()
 
 
 
@@ -65,7 +92,7 @@ def ouvrir_jeu():
     can.config(bg='gray')
     btn_quit = Button(fen, text='quitter', command=fen.quit)
     btn_quit.grid(row=2, column=1)
-    Label(fen, text='Score précédant :  ').grid(row=0, column=0)
+    Label(fen, text='Score précédent :  ').grid(row=0, column=0)
     Label(fen, text=score).grid(row=0, column=1)
 
     # Réinitialiser les variables du jeu
@@ -96,7 +123,6 @@ def start_game():
     Boutton.destroy()
     fen_reglage.destroy()
     ouvrir_jeu()
-    play_music()
 
 def pomme(can):
     global pomme_obj
